@@ -62,3 +62,5 @@ function extractNumbersFromText(text: string) {
 
   return numbers;
 }
+
+export default trebuchet;

@@ -1,5 +1,3 @@
-import input from "./input";
-
 /*
 
 --- Day 2: Cube Conundrum ---
@@ -90,6 +88,4 @@ function cubeConundrum(input: string[]) {
   return result;
 }
 
-// only 12 red cubes, 13 green cubes, and 14 blue cubes
-const result = cubeConundrum(input);
-console.log(result); // 2076
+export default cubeConundrum;

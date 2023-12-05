@@ -14,8 +14,6 @@ In this example, the calibration values are , , 13, 24, 42, 14, and 76. Adding t
 
 What is the sum of all of the calibration values?
 */
-import input from "./input";
-
 function trebuchet(input: string[]) {
   let sum = 0;
 
@@ -77,5 +75,4 @@ function extractNumbersFromText(text: string) {
   return numbers;
 }
 
-const result = trebuchet(input);
-console.log(result); // 55614
+export default trebuchet;

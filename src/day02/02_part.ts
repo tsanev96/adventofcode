@@ -1,5 +1,3 @@
-import input from "./input";
-
 /*
 
 --- Part Two ---
@@ -86,5 +84,4 @@ function cubeConundrum(input: string[]) {
   return result;
 }
 
-const result = cubeConundrum(input);
-console.log(result); // 70950
+export default cubeConundrum;
