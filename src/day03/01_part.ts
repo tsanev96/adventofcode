@@ -125,8 +125,8 @@ function checkPartElement(args: Matrix) {
   const allNeighbour = getNeighbourElements(args);
 
   let isPart = false;
-  allNeighbour.forEach((element) => {
-    if (checkElementIfSymbol(element)) {
+  allNeighbour.forEach((el) => {
+    if (checkElementIfSymbol(el)) {
       isPart = true;
       return;
     }
