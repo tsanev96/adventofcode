@@ -67,6 +67,7 @@ function isGamePossible(allSets: string[]) {
 }
 
 function calculateCubes(input: string[]) {
+  //TODO REDUCE
   let sum = 0;
 
   for (let i = 0; i < input.length; i++) {
