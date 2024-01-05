@@ -4,7 +4,7 @@ import trebuchet2 from "./02_part";
 import { readFileSync } from "fs";
 import { convertTxtToArray } from "../utils";
 
-describe("Day 2", () => {
+describe("Day 1", () => {
   describe("Part 1", () => {
     test("given example", () => {
       const input = `

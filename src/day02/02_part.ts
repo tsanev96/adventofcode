@@ -1,3 +1,4 @@
+import { getSetsAndGameId, getCubeColorSplit, getCubeColors } from "./01_part";
 /*
 
 --- Part Two ---
@@ -22,66 +23,47 @@ The power of a set of cubes is equal to the numbers of red, green, and blue cube
 For each game, find the minimum set of cubes that must have been present. What is the sum of the power of these sets?
 
 */
-
 interface Cubes {
-  red: number[];
-  green: number[];
-  blue: number[];
+  red: number;
+  blue: number;
+  green: number;
 }
 
-function sortCubes(cubes: Cubes) {
-  const sortedCubes: Cubes = {
-    red: cubes.red.sort((a, b) => b - a),
-    green: cubes.green.sort((a, b) => b - a),
-    blue: cubes.blue.sort((a, b) => b - a),
+function getBiggestCountedCubes(allSets: string[]): Cubes {
+  const biggestCubes = {
+    red: 0,
+    blue: 0,
+    green: 0,
   };
 
-  return sortedCubes;
-}
+  for (const set of allSets) {
+    const cubeColorArray = getCubeColorSplit(set);
+    const currentCubesSet = getCubeColors(cubeColorArray);
 
-function getMinimumSetOfCubes(set: string[]) {
-  const currentCubes: Cubes = {
-    red: [],
-    green: [],
-    blue: [],
-  };
-
-  for (let i = 0; i < set.length; i += 2) {
-    const cubes = Number(set[i]);
-    const color = set[i + 1];
-
-    currentCubes[color].push(Number(cubes));
+    for (const color in currentCubesSet) {
+      if (biggestCubes[color] < currentCubesSet[color]) {
+        biggestCubes[color] = currentCubesSet[color];
+      }
+    }
   }
 
-  return sortCubes(currentCubes);
+  return biggestCubes;
 }
 
-function calculatePowerOfAllGameSets(allSetSeparated: string[]) {
-  const joinedSets = allSetSeparated.join(" ").split(/, /).join(" ").split(" ");
-  const setOfCubes = getMinimumSetOfCubes(joinedSets);
-
-  return setOfCubes.blue[0] * setOfCubes.red[0] * setOfCubes.green[0];
-}
-
-function calculateCubes(input: string[]) {
-  let sum = 0;
-
-  for (let i = 0; i < input.length; i++) {
-    const splitedGameAndSets = input[i]?.split(":");
-    const allSetSeparated = splitedGameAndSets[1]
-      ?.split(";")
-      .map((el) => el.trim());
-
-    sum += calculatePowerOfAllGameSets(allSetSeparated);
-  }
-
-  return sum;
+function multiplyCubes(cubes: Cubes) {
+  return Object.values(cubes).reduce((prev, curr) => prev * curr, 1);
 }
 
 function cubeConundrum(input: string[]) {
-  const result = calculateCubes(input);
+  let sum = 0;
 
-  return result;
+  for (const text of input) {
+    const { sets } = getSetsAndGameId(text);
+    const biggestCubes = getBiggestCountedCubes(sets);
+    sum += multiplyCubes(biggestCubes);
+  }
+
+  return sum;
 }
 
 export default cubeConundrum;

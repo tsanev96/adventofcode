@@ -14,20 +14,9 @@ In this example, the calibration values are , , 13, 24, 42, 14, and 76. Adding t
 
 What is the sum of all of the calibration values?
 */
-function trebuchet(input: string[]) {
-  let sum = 0;
+import { extractNumbersFromText, getCalibrationNumbers } from "./01_part";
 
-  for (let i = 0; i < input.length; i++) {
-    const text = input[i];
-    const newText = test(text);
-    const numbers = extractNumbersFromText(newText);
-    const calibrationNumber = getCalibrationNumbers(numbers);
-    sum += calibrationNumber;
-  }
-  return sum;
-}
-
-function test(text: string) {
+function convertTextToNumber(text: string) {
   const digits = {
     one: 1,
     two: 2,
@@ -39,40 +28,28 @@ function test(text: string) {
     eight: 8,
     nine: 9,
   };
-  let convertedText = text;
+
+  let textToConvert = text;
+
   for (const [key, value] of Object.entries(digits)) {
     const a = new RegExp(key, "g");
-    convertedText = convertedText.replace(a, `${key}${value}${key}`);
-  }
-  return convertedText;
-}
-
-function getCalibrationNumbers(numbers: number[]) {
-  const firstNumber = numbers[0];
-
-  if (numbers.length >= 2) {
-    return concatTwoNumbers(firstNumber, numbers[numbers.length - 1]);
-  } else if (numbers.length === 1) {
-    return concatTwoNumbers(firstNumber, firstNumber);
-  }
-  return 0;
-}
-
-function concatTwoNumbers(num1: number, num2: number) {
-  return Number(String(num1) + String(num2));
-}
-
-function extractNumbersFromText(text: string) {
-  const numbers: number[] = [];
-
-  for (let i = 0; i < text.length; i++) {
-    const convertedNumber = Number(text[i]);
-    if (convertedNumber) {
-      numbers.push(convertedNumber);
-    }
+    textToConvert = textToConvert.replace(a, `${key}${value}${key}`);
   }
 
-  return numbers;
+  return textToConvert;
+}
+
+function trebuchet(input: string[]) {
+  let sum = 0;
+
+  for (const text of input) {
+    const newText = convertTextToNumber(text);
+    const numbers = extractNumbersFromText(newText);
+    const calibrationNumber = getCalibrationNumbers(numbers);
+    sum += calibrationNumber;
+  }
+
+  return sum;
 }
 
 export default trebuchet;

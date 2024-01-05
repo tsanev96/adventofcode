@@ -27,26 +27,35 @@ In the example above, games 1, 2, and 5 would have been possible if the bag had 
 Determine which games would have been possible if the bag had been loaded with only 12 red cubes, 13 green cubes, and 14 blue cubes. What is the sum of the IDs of those games?
 
 */
+
+export function getCubeColors(set: string[]) {
+  const currentCubes = {
+    red: 0,
+    green: 0,
+    blue: 0,
+  };
+
+  for (let i = 0; i < set.length; i += 2) {
+    const cubes = Number(set[i]);
+    const color = set[i + 1];
+
+    currentCubes[color] = currentCubes[color] + cubes;
+  }
+
+  return currentCubes;
+}
+
 function isSetPossible(set: string[]) {
-  const possibleCubesGame = {
+  const possibleCubesSet = {
     red: 12,
     green: 13,
     blue: 14,
   };
 
-  for (let i = 0; i < set.length; i += 2) {
-    const currentCubes = {
-      red: 0,
-      green: 0,
-      blue: 0,
-    };
+  const currentCubes = getCubeColors(set);
 
-    const cubes = Number(set[i]);
-    const color = set[i + 1];
-
-    currentCubes[color] = currentCubes[color] + cubes;
-
-    if (currentCubes[color] > possibleCubesGame[color]) {
+  for (const color in possibleCubesSet) {
+    if (currentCubes[color] > possibleCubesSet[color]) {
       return false;
     }
   }
@@ -54,28 +63,37 @@ function isSetPossible(set: string[]) {
   return true;
 }
 
-function isGamePossible(allSets: string[]) {
-  for (let j = 0; j < allSets.length; j++) {
-    const set = allSets[j].split(/, /).join(" ").split(" ");
+export function getCubeColorSplit(text: string) {
+  return text.split(/, /).join(" ").split(" ");
+}
 
-    if (!isSetPossible(set)) {
+function isGamePossible(set: string[]) {
+  for (const element of set) {
+    const cubeColor = getCubeColorSplit(element);
+
+    if (!isSetPossible(cubeColor)) {
       return false;
     }
   }
 
   return true;
+}
+
+export function getSetsAndGameId(text: string) {
+  const splittedGameAndSets = text?.split(":");
+  const gameId = Number(splittedGameAndSets[0]?.split(" ")[1]);
+  const sets = splittedGameAndSets[1]?.split(";").map((el) => el.trim());
+
+  return { sets, gameId };
 }
 
 function calculateCubes(input: string[]) {
-  //TODO REDUCE
   let sum = 0;
 
-  for (let i = 0; i < input.length; i++) {
-    const splitedGameAndSets = input[i]?.split(":");
-    const gameId = Number(splitedGameAndSets[0]?.split(" ")[1]);
-    const allSets = splitedGameAndSets[1]?.split(";").map((el) => el.trim());
+  for (const text of input) {
+    const { sets, gameId } = getSetsAndGameId(text);
 
-    if (isGamePossible(allSets)) {
+    if (isGamePossible(sets)) {
       sum += gameId;
     }
   }

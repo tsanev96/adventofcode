@@ -25,36 +25,30 @@
 function trebuchet(input: string[]) {
   let sum = 0;
 
-  for (let i = 0; i < input.length; i++) {
-    const text = input[i];
+  for (const text of input) {
     const numbers = extractNumbersFromText(text);
     const calibrationNumber = getCalibrationNumbers(numbers);
     sum += calibrationNumber;
   }
+
   return sum;
 }
 
-function getCalibrationNumbers(numbers: number[]) {
-  const firstNumber = numbers[0];
-
-  if (numbers.length >= 2) {
-    return concatTwoNumbers(firstNumber, numbers[numbers.length - 1]);
-  } else if (numbers.length === 1) {
-    return concatTwoNumbers(firstNumber, firstNumber);
+export function getCalibrationNumbers(numbers: number[]) {
+  if (numbers.length > 0) {
+    const firstNumber = numbers[0];
+    const lastNumber = numbers[numbers.length - 1] ?? firstNumber;
+    return +`${firstNumber}${lastNumber}`;
   }
 
   return 0;
 }
 
-function concatTwoNumbers(num1: number, num2: number) {
-  return Number(String(num1) + String(num2));
-}
-
-function extractNumbersFromText(text: string) {
+export function extractNumbersFromText(text: string) {
   const numbers: number[] = [];
 
-  for (let i = 0; i < text.length; i++) {
-    const convertedNumber = Number(text[i]);
+  for (const character of text) {
+    const convertedNumber = Number(character);
     if (convertedNumber) {
       numbers.push(convertedNumber);
     }
