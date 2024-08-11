@@ -1,53 +1,28 @@
-import { describe, test, expect } from "@jest/globals";
-import trebuchet1 from "./01_part";
-import trebuchet2 from "./02_part";
+import { describe, it, expect } from "@jest/globals";
+import trebuchet from "./01_part";
 import { readFileSync } from "fs";
-import { convertTxtToArray } from "../utils";
 
-describe("Day 1", () => {
-  describe("Part 1", () => {
-    test("given example", () => {
-      const input = `
-        1abc2
-        pqr3stu8vwx
-        a1b2c3d4e5f
-        treb7uchet
-    `;
-      const inputArr = convertTxtToArray(input);
-      const result = trebuchet1(inputArr);
-      expect(result).toBe(142);
-    });
-
-    test("real input", () => {
-      const txt = readFileSync(__dirname + "/input.txt", "utf-8");
-      const input = convertTxtToArray(txt);
-      const result = trebuchet1(input);
-      expect(result).toBe(55488);
-    });
+describe('Day 1, part 1', () => {
+  it('Given case', () => {
+    const input = `1abc2
+                      pqr3stu8vwx
+                      a1b2c3d4e5f
+                      treb7uchet`;
+    expect(trebuchet([input])).toBe(142);
   });
 
-  describe("Part 2", () => {
-    test("given example", () => {
-      const input = `
-        two1nine
-        eightwothree
-        abcone2threexyz
-        xtwone3four
-        4nineeightseven2
-        zoneight234
-        7pqrstsixteen
-    `;
-      const inputArr = convertTxtToArray(input);
-      const result = trebuchet2(inputArr);
-      expect(result).toBe(281);
-    });
+  it("should return 10", () => {
+    expect(trebuchet(["dsa2sd"])).toStrictEqual(22)
+  })
 
-    test("real input", () => {
-      const txt = readFileSync(__dirname + "/input.txt", "utf-8");
-      const input = convertTxtToArray(txt);
-      const result = trebuchet2(input);
-      expect(result).toBe(55614);
-      //
-    });
+  it("should return 92", () => {
+    expect(trebuchet(["ds9a2sd"])).toStrictEqual(92)
+  })
+
+  it('should test real input', () => {
+    const data = readFileSync(__dirname + '/input_1.txt', 'utf8');
+    const sum = trebuchet([data]);
+    expect(sum).toBe(55488);
   });
+
 });

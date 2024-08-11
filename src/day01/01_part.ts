@@ -22,23 +22,21 @@
 
 // Consider your entire calibration document. What is the sum of all of the calibration values?
 
-function trebuchet(input: string[]) {
-  let sum = 0;
+function trebuchet(args: string[]) {
+  const input = args[0].split('\n');
 
-  for (const text of input) {
-    const numbers = extractNumbersFromText(text);
+  return input.reduce((sum, curr) => {
+    const numbers = extractNumbersFromText(curr);
     const calibrationNumber = getCalibrationNumbers(numbers);
-    sum += calibrationNumber;
-  }
-
-  return sum;
+    return sum + calibrationNumber
+  }, 0)
 }
 
 export function getCalibrationNumbers(numbers: number[]) {
   if (numbers.length > 0) {
     const firstNumber = numbers[0];
     const lastNumber = numbers[numbers.length - 1] ?? firstNumber;
-    return +`${firstNumber}${lastNumber}`;
+    return parseInt(`${firstNumber}${lastNumber}`, 10)
   }
 
   return 0;
